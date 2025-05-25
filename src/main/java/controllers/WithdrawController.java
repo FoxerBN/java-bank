@@ -1,33 +1,30 @@
 package controllers;
 
-import services.BankService;
 import services.AuthService;
-import java.util.Scanner;
+import services.BankService;
+import javax.swing.*;
+
+import static controllers.AuthController.frame;
 
 public class WithdrawController {
-    private static final Scanner sc = new Scanner(System.in);
-
-    public static void withdraw(){
-        if(AuthService.getCurrentUser() == null) {
-            System.out.println("You must be logged in to withdraw money.");
+    public static void withdraw() {
+        if (AuthService.getCurrentUser() == null) {
+            JOptionPane.showMessageDialog(frame, "You must be logged in to withdraw money.");
             return;
         }
-
-        System.out.println("Enter the amount you want to withdraw:");
-        double amount = sc.nextDouble();
-        sc.nextLine();
-
-        if(amount <= 0) {
-            System.out.println("Invalid amount. Please enter a positive number.");
-            return;
-        }
-
-        if(BankService.withdraw(amount)) {
-            System.out.printf("Successfully withdrew %.2f. Your new balance is %.2f.%n",
-                              amount, AuthService.getCurrentUser().getBalance());
-        } else {
-            System.out.println("Withdrawal failed. Please check your balance and try again.");
+        String input = JOptionPane.showInputDialog("Enter the amount you want to withdraw:");
+        if (input == null) return;
+        try {
+            double amount = Double.parseDouble(input);
+            if (BankService.withdraw(amount)) {
+                JOptionPane.showMessageDialog(frame, String.format(
+                        "Successfully withdrew %.2f. New balance: %.2f.",
+                        amount, AuthService.getCurrentUser().getBalance()));
+            } else {
+                JOptionPane.showMessageDialog(frame, "Withdraw failed. Please try again.");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(frame, "Invalid amount.");
         }
     }
-
 }

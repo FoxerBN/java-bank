@@ -3,6 +3,7 @@ package controllers;
 import models.User;
 import services.UserService;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Scanner;
 
@@ -57,7 +58,7 @@ public class MainController {
                     AuthController.logout();
                     break;
                 case 5:
-                    System.out.println("Thank you for using the Banking Application. Goodbye!");
+                    JOptionPane.showMessageDialog(null, "Thank you for using the Banking Application!");
                     isRunning = false;
                     break;
                 default:

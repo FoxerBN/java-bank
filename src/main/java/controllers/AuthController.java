@@ -2,25 +2,24 @@ package controllers;
 
 import services.AuthService;
 
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
 
 public class AuthController {
-    private static final Scanner sc = new Scanner(System.in);
     private static int loginAttempts = 3;
+    static Component frame;
 
     public static void login() {
         while (loginAttempts > 0) {
-            System.out.println("Please enter your PIN:");
-            String pin = sc.nextLine();
+            String pin = JOptionPane.showInputDialog(frame, "Please enter your PIN:");
 
             if (AuthService.login(pin)) {
-                System.out.println("Login successful!");
+                JOptionPane.showMessageDialog(frame, "Login successful!");
                 loginAttempts = 3;
                 return;
             } else {
                 loginAttempts--;
-                System.out.println("Invalid PIN. Please try again.");
-                System.out.println("You have " + loginAttempts + " attempts left.");
+                JOptionPane.showMessageDialog(frame, "Invalid PIN. Attempts left: " + loginAttempts);
 
                 if (loginAttempts == 0) System.exit(0);
             }
@@ -30,10 +29,10 @@ public class AuthController {
 
     public static void logout() {
         if (AuthService.getCurrentUser() == null) {
-            System.out.println("You are not logged in.");
+            JOptionPane.showMessageDialog(frame, "You are not logged in.");
             return;
         }
         AuthService.logout();
-        System.out.println("You have been logged out.");
+        JOptionPane.showMessageDialog(frame, "You have been logged out successfully.");
     }
 }
