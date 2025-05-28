@@ -1,4 +1,3 @@
-Here's a clean, simple, and brief `README.md` you can use for your GitHub project:
 
 ---
 
