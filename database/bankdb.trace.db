@@ -1,3 +1,0 @@
-2025-05-24 22:25:16.139325+02:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM [*]USER WHERE pin = ?"; expected "identifier"; SQL statement:
-SELECT * FROM USER WHERE pin = ? [42001-224]

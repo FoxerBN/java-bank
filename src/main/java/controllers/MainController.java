@@ -5,44 +5,40 @@ import services.UserService;
 
 import javax.swing.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class MainController {
-    private final Scanner sc;
     private boolean isRunning;
 
     public MainController() {
-        this.sc = new Scanner(System.in);
         this.isRunning = true;
     }
 
     public void start() {
         while (isRunning) {
-            displayMenu();
-            handleChoice();
+            String input = displayMenu();
+            handleChoice(input);
         }
-        sc.close();
     }
 
-    private void displayMenu() {
+    private String displayMenu() {
         List<User> allUsers = UserService.getAllUsers();
-        System.out.println("Users in database:");
+        StringBuilder sb = new StringBuilder("Users in database:\n");
         for (User user : allUsers) {
-            System.out.println("- " + user.getName() + "- " + user.getBalance());
+            sb.append("- ").append(user.getName()).append(" - ").append(user.getBalance()).append("\n");
         }
-        System.out.println("\n===Welcome to the Banking Application!===");
-        System.out.println("1. Login");
-        System.out.println("2. Deposit money");
-        System.out.println("3. Withdraw money");
-        System.out.println("4. Logout");
-        System.out.println("5. Exit");
-        System.out.println("Enter your choice:");
+        sb.append("\n===Welcome to the Banking Application===\n")
+                .append("1. Login\n")
+                .append("2. Deposit money\n")
+                .append("3. Withdraw money\n")
+                .append("4. Logout\n")
+                .append("5. Exit\n");
+        return JOptionPane.showInputDialog(null, sb.toString() + "\nEnter your choice:");
     }
 
-    private void handleChoice() {
+    private void handleChoice(String input) {
+        if (input == null) return;
         try {
-            int choice = sc.nextInt();
-            sc.nextLine();
+            int choice = Integer.parseInt(input);
 
             switch (choice) {
                 case 1:
@@ -62,11 +58,10 @@ public class MainController {
                     isRunning = false;
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    JOptionPane.showMessageDialog(null, "Invalid choice. Please try again.");
             }
         } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
-            sc.nextLine();
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage());
         }
     }
 }
